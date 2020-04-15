@@ -194,7 +194,9 @@ def circularize_image(IM, method="lsq", origin=None, radial_range=None,
     radcorr = correction(polarIM.T, angles, radial, method=method)
 
     # spline radial correction vs angle
-    radial_correction_function = UnivariateSpline(angles, radcorr, s=smooth,
+    angles_ = np.hstack((angles - 2 * np.pi, angles, angles + 2 * np.pi))
+    radcorr_ = np.hstack((radcorr, radcorr, radcorr))
+    radial_correction_function = UnivariateSpline(angles_, radcorr_, s=smooth,
                                                   ext=3)
 
     # apply the correction
